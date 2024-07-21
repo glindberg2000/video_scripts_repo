@@ -1,8 +1,15 @@
 #!/bin/bash
 
-# Directory containing video files
-input_dir="./caseoh_vids"
-output_dir="./caseoh_vids"
+# Default directories
+default_input_dir="./caseoh_vids"
+default_output_dir="./caseoh_vids"
+
+# Use provided directories or fall back to defaults
+input_dir=${1:-$default_input_dir}
+output_dir=${2:-$default_output_dir}
+
+# Create the output directory if it doesn't exist
+mkdir -p "$output_dir"
 
 # Loop through all MOV and AVI files in the input directory
 for file in "$input_dir"/*.{mov,avi}; do
