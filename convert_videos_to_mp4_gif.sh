@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Default directories
-default_input_dir="./caseoh_vids"
-default_output_dir="./caseoh_vids"
+default_input_dir="./source_videos"
+default_output_dir="./processed_videos"
 
 # Use provided directories or fall back to defaults
 input_dir=${1:-$default_input_dir}
@@ -31,7 +31,7 @@ for file in "$input_dir"/*.{mov,avi}; do
         echo "Skipping $file as $output_mp4 already exists."
     else
         # Convert to MP4 if it doesn't already exist
-        ffmpeg -i "$file" -c:v libx264 -crf 23 -preset fast -c:a aac -b:a 128k -vf "scale=iw*min(1920/iw\,1080/ih):ih*min(1920/iw\,1080/ih), pad=1920:1080:(1920-iw*min(1920/iw\,1080/ih))/2:(1080-ih*min(1920/iw\,1080/ih))/2" "$output_mp4"
+        ffmpeg -i "$file" -c:v libx264 -crf 23 -preset fast -c:a aac -b:a 128k -vf "scale=800:800,setsar=1:1" "$output_mp4"
         echo "Converted $file to $output_mp4"
     fi
 
@@ -40,7 +40,7 @@ for file in "$input_dir"/*.{mov,avi}; do
         echo "Skipping $file as $output_gif already exists."
     else
         # Convert to GIF if it doesn't already exist
-        ffmpeg -i "$file" -vf "scale=iw*min(600/iw\,600/ih):ih*min(600/iw\,600/ih), fps=10" "$output_gif"
+        ffmpeg -i "$file" -vf "scale=800:800,setsar=1:1,fps=10" "$output_gif"
         echo "Converted $file to $output_gif"
     fi
 done
